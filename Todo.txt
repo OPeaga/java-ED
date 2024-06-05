@@ -1,0 +1,7 @@
+1: Ajeitar classe de Hash para guardar as palvras junto de suas linhas,
+as palavras formam as chaves quanto as linhas compõem os valores armazenados nelas;
+
+2: Ajeitar Arvore Binaria
+
+Final - 1 : Testar com arquivos previamente criados;
+Final : Ajeitar entrada de arquivos;
