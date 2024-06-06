@@ -38,9 +38,35 @@ public class HashTable {
 //            So imprime se tiver chave
             if (tabela[i].temChave()){
                 System.out.print(i + " -->\t");
-                tabela[i].imprimirLista();
+                tabela[i].imprimirValores();
             }
         }
+    }
+
+    public boolean contem(String chave) {
+        int endereco = calcularHash(chave);
+        return this.tabela[endereco] != null;
+    }
+
+    public void imprimeValoresPorChave(String chave){
+        int endereco = calcularHash(chave);
+        if (this.contem(chave)){
+            this.tabela[endereco].imprimirValores();
+        }
+    }
+
+
+    public int[] valoresChave(String chave){
+        int endereco = calcularHash(chave);
+        int[] valoresChave = new int[this.tabela[endereco].getnElementos()];
+
+
+        if (this.contem(chave)){
+            for (int i = 0; i < this.tabela[endereco].getnElementos(); i++) {
+                valoresChave[i] = this.tabela[endereco].valores(i);
+            }
+        }
+        return valoresChave;
     }
 
 }

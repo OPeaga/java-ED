@@ -3,7 +3,7 @@ package DataStructures;
 import java.util.NoSuchElementException;
 
 class ListaDuplamenteEncadeada {
-    private class Node {
+    private static class Node {
 
         private int linha;
         private String chave;
@@ -72,7 +72,7 @@ class ListaDuplamenteEncadeada {
     }
 
     public void insereFinal(String chave, int valor) {
-        Node novoNodo = new Node(chave,valor);
+        Node novoNodo = new Node(chave, valor);
         if (ultimo == null) {
             primeiro = novoNodo;
             ultimo = novoNodo;
@@ -142,7 +142,7 @@ class ListaDuplamenteEncadeada {
         }
     }
 
-    public void imprimirLista() {
+    public void imprimirValores() {
         Node atual = primeiro;
         while (atual != null) {
             if (atual == primeiro){
@@ -156,10 +156,31 @@ class ListaDuplamenteEncadeada {
 
     public boolean temChave(){
         Node no = primeiro;
-        if (primeiro == null){
-            return false;
+        return primeiro != null;
+    }
+
+    public String chavePos(int pos){
+        Node atual = primeiro;
+        int posNodoAtual = 0;
+        while (posNodoAtual != pos){
+            atual = atual.proximo;
+            posNodoAtual++;
         }
-        return true;
+        return atual.chave;
+    }
+
+    public int valores(int pos){
+        Node atual = primeiro;
+        int posNodoAtual = 0;
+        while (posNodoAtual != pos){
+            atual = atual.proximo;
+            posNodoAtual++;
+        }
+        return atual.getLinha();
+    }
+
+    public int getnElementos() {
+        return nElementos;
     }
 
 }

@@ -16,9 +16,10 @@ public class ArvoreBinariaBusca {
 
     }
 
-
     public Nodo raiz;
+
     public int nElementos;
+
 
     public ArvoreBinariaBusca() {
         this.raiz = null;
@@ -32,30 +33,6 @@ public class ArvoreBinariaBusca {
     public boolean estaVazia() {
         return this.raiz == null;
     }
-
-//    public void imprimeEmLargura() {
-//
-//        FilaDinamica<Nodo> fila = new FilaDinamica<Nodo>();
-//
-//        fila.enfileira(this.raiz);
-//        while (!fila.estaVazia()) {
-//
-//            Nodo cursor = fila.desenfileira();
-//
-//            System.out.print(cursor.elemento + " ");
-//
-//            if (cursor.esquerdo != null) {
-//                fila.enfileira(cursor.esquerdo);
-//            }
-//
-//            if (cursor.direito != null) {
-//                fila.enfileira(cursor.direito);
-//            }
-//        }
-//
-//        System.out.println();
-//
-//    }
 
     public void imprimePreOrdem() {
         this.preOrdem(this.raiz);
@@ -71,6 +48,7 @@ public class ArvoreBinariaBusca {
         this.emOrdem(this.raiz);
         System.out.println();
     }
+
 
     public void preOrdem(Nodo nodo) {
 
@@ -188,6 +166,53 @@ public class ArvoreBinariaBusca {
 
     public int altura() {
         return this.altura(this.raiz);
+    }
+
+    public boolean remove(String chave) {
+        return this.remove(chave, this.raiz) != null;
+    }
+
+    private Nodo remove(String chave, Nodo nodo) {
+
+        if (nodo == null) {
+            System.out.println("Valor não encontrado");
+            return null;
+        }
+
+        if (chave.compareTo(nodo.chave) < 0) {
+            nodo.esquerdo = this.remove(chave, nodo.esquerdo);
+        } else if (chave.compareTo(nodo.chave) > 0) {
+            nodo.direito = this.remove(chave, nodo.direito);
+        } else {
+
+            if (nodo.esquerdo == null) {
+                this.nElementos--;
+                return nodo.direito;
+            } else if (nodo.direito == null) {
+                this.nElementos--;
+                return nodo.esquerdo;
+            } else {
+                Nodo substituto = this.menorElemento(nodo.direito);
+                nodo.chave = substituto.chave;
+                this.remove(substituto.chave, nodo.direito);
+            }
+        }
+        return nodo;
+    }
+
+    public ListaEncadeada<String> getChavesOrdenadas() {
+        ListaEncadeada<String> chavesOrdenadas = new ListaEncadeada<>();
+        perrcorrerEmOrdem(raiz, chavesOrdenadas);
+        return chavesOrdenadas;
+    }
+
+    private void perrcorrerEmOrdem(Nodo nodo, ListaEncadeada<String> chavesOrdenadas) {
+        if (nodo == null) {
+            return;
+        }
+        perrcorrerEmOrdem(nodo.esquerdo, chavesOrdenadas);
+        chavesOrdenadas.insereFinal(nodo.chave);
+        perrcorrerEmOrdem(nodo.direito, chavesOrdenadas);
     }
 
 }

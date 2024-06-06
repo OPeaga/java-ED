@@ -1,8 +1,6 @@
 import DataStructures.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.io.IOException;
 
 
@@ -15,7 +13,7 @@ public class IndiceRemissivo {
 //        Metodo para pegar os nomes presentes no indice e insere em uma arvore de busca binaria
         this.getNomesIndice();
         this.getIndicesPorNome();
-        hashTable.imprime();
+        this.getIndiceRemissivoOrdenado();
     }
 
     public String[] getNomesIndice() throws IOException {
@@ -24,14 +22,6 @@ public class IndiceRemissivo {
 
         File arquivoIndices =
                 new File("C:\\Users\\Lorde\\Documents\\Estudos\\Faculdade\\EST.DADOS\\projetoFinal\\"+ nomeArquivo);
-
-        boolean state = arquivoIndices.createNewFile();
-
-        if (state){
-            System.out.println("Arquivo foi criado: " + arquivoIndices.getName());
-        } else {
-            System.out.println("Arquivo já presente: " + arquivoIndices.getName());
-        }
 
 
         try(BufferedReader br = new BufferedReader(new FileReader(arquivoIndices))){
@@ -60,15 +50,6 @@ public class IndiceRemissivo {
 
         File arquivoTexto =
                 new File("C:\\Users\\Lorde\\Documents\\Estudos\\Faculdade\\EST.DADOS\\projetoFinal\\"+ nomeArquivo);
-
-        boolean state = arquivoTexto.createNewFile();
-
-        if (state){
-            System.out.println("Arquivo foi criado: " + arquivoTexto.getName());
-        } else {
-            System.out.println("Arquivo já presente: " + arquivoTexto.getName());
-        }
-
 
         try(BufferedReader br = new BufferedReader(new FileReader(arquivoTexto))){
             String linha = br.readLine();
@@ -102,16 +83,61 @@ public class IndiceRemissivo {
         }
     }
 
-//    Criar metodo para imprimir indice remissivo em ordem, utilizando da arvore de busca e em seguida o hash
+//    Criar metodo para imprimir indice remissivo em ordem, utilizando da arvore de busca e em seguida o hash e
+//    gravar em arquvio - ok porraa
+    public void getIndiceRemissivoOrdenado() throws IOException {
 
-//    Criar metodo para gravar em arquivo o indice remissivo em ordem alfabetica
+        String nomeArquivoGravacao = "arquivoIndiceRemissivo.txt";
+        File arquivoGravacao = new File("C:\\Users\\Lorde\\Documents\\Estudos\\Faculdade\\EST" +
+                ".DADOS\\projetoFinal\\"+nomeArquivoGravacao);
 
+        boolean state = arquivoGravacao.createNewFile();
+
+        if (state){
+            System.out.println("Arquivo foi criado: " + arquivoGravacao.getName());
+        } else {
+            System.out.println("Arquivo já presente: " + arquivoGravacao.getName());
+//            Se o arquivo já estiver presente, apagar ele para criar outro
+            try {
+                System.out.println("Arquivo anterior deletado " + arquivoGravacao.delete());
+                System.out.println("Arquivo novo criado " + arquivoGravacao.createNewFile());
+
+            } catch (SecurityException e){
+                System.out.println("Erro de segurança");
+            }
+        }
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoGravacao))){
+//            Parte mais dificil, pegar os valores ordenados para posteriormente localizalos na has e colocar no arquivo
+
+            bw.write("Indice Remissivo");
+            bw.newLine();
+
+            for (int i = 0; i < arvoreBinariaBusca.tamanho(); i++) {
+                String chave = arvoreBinariaBusca.getChavesOrdenadas().elemento(i);
+                System.out.print(chave + ": ");
+                bw.write(chave +": ");
+
+                for (int j = 0; j < hashTable.valoresChave(chave).length; j++) {
+                    System.out.print(hashTable.valoresChave(chave)[j] + " ");
+                    bw.write(hashTable.valoresChave(chave)[j] +" ");
+                }
+                bw.newLine();
+            }
+
+
+        }
+        catch ( IOException e){
+            System.out.println("Erro do tipo: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         IndiceRemissivo newIndice = new IndiceRemissivo();
         System.out.println();
-        System.out.println("Resultados da Arvore:");
+        System.out.println("Arvore de Busca armazenou:");
         newIndice.arvoreBinariaBusca.imprimeEmOrdem();
+        System.out.println("Hash armazenou:");
+        newIndice.hashTable.imprime();
 
 
 
