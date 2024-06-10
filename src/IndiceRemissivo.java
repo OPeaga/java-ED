@@ -70,7 +70,7 @@ public class IndiceRemissivo {
 //                na arvore de busca - ok
 
                 for (int i = 0; i < todasPalavrasLinha.length; i++) {
-                    if (arvoreBinariaBusca.busca(todasPalavrasLinha[i])){
+                    if (arvoreBinariaBusca.busca(todasPalavrasLinha[i].toLowerCase())){
                         hashTable.adiciona(todasPalavrasLinha[i],contadorLinhas);
                     }
                 }
